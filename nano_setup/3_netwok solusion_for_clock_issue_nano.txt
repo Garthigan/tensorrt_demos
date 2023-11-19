@@ -1,0 +1,16 @@
+--------------------------NTP solusion---------------------- 
+
+If Jetson Nano is connected to the internet, we can configure it to automatically update its system clock 
+from a NTP(Network Time Protocol) server each time it boots. This can be done by setting the NTP service to start at boot time.
+(Keep in mind that the NTP solution won't work if Jetson Nano isn't connected to the internet at boot time)
+
+sudo apt-get update
+sudo apt-get install ntp
+sudo systemctl enable ntp
+
+
+
+
+
+
+

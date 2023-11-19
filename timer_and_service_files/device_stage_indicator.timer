@@ -1,0 +1,9 @@
+[Unit]
+Description=My Python Script Timer
+
+[Timer]
+OnCalendar=*-*-* 08:30:00
+Unit=device_stage_indicator.service
+
+[Install]
+WantedBy=timers.target

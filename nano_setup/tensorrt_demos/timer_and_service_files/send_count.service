@@ -1,0 +1,15 @@
+[Unit]
+After=networking.service
+After=NetworkManager.service
+After=multi-user.target
+
+[Service]
+User=jetson-nl1
+Type=simple
+WorkingDirectory=/home/jetson-nl1/Downloads/tensorrt_demos
+ExecStart=/usr/bin/python /home/jetson-nl1/Downloads/tensorrt_demos/send_count.py
+Restart=on-failure
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=default.target

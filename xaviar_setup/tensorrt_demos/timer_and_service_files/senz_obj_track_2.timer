@@ -1,0 +1,11 @@
+
+jetson-nl1@jetsonnl1-desktop:/etc/systemd/system$ cat senz_obj_track_2.timer
+[Unit]
+Description=My Python Script Timer
+
+[Timer]
+OnCalendar=*-*-* 08:30:00
+Unit=senz_obj_track_2.service
+
+[Install]
+WantedBy=timers.target

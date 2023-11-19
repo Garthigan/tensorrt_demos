@@ -1,0 +1,88 @@
+1- -----------------Change Root File System to SD Card Directly----------------------
+
+     URL - http://www.forecr.io/blogs/bsp-development/change-root-file-system-to-sd-card-directly
+
+     sudo jetson_clocks
+     gnome-disks
+
+     Internal memory to inbuilt sd slot
+          *  sudo ./change_rootfs_storage_direct-emmc_to_sdmmc.sh /dev/mmcblk1p1
+     inbuilt sd slot to another sd card
+          * sudo ./change_rootfs_storage_direct-emmc_to_sdmmc.sh /dev/sda1
+
+     Reboot it and check the Root File System copied successfully
+     df -h
+
+
+
+2------------------- Install Jetpack and set the cuda path--------------------
+sudo apt update
+sudo apt install nvidia-jetpack
+------ open your bashrc file -----------
+sudo gedit ~/.bashrc
+------ Add a blank, then these 2 lines (letting your Nano know where CUDA is) to the bottom of the file-----
+export PATH=${PATH}:/usr/local/cuda/bin
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/cuda/lib64
+------ Save, close, then (back in Terminal) source the bashrc file------------
+source ~/.bashrc
+------ You can now check your nvcc version with
+nvcc --version
+
+
+3-------------------- Installing TensorFlow for Jetson Platform - NVIDIA Docs-------------------
+sudo apt-get update
+sudo apt-get install libhdf5-serial-dev hdf5-tools libhdf5-dev zlib1g-dev zip libjpeg8-dev liblapack-dev libblas-dev gfortran
+sudo apt-get install python3-pip
+sudo python3 -m pip install --upgrade pip
+sudo pip3 install -U testresources setuptools==65.5.0
+sudo pip3 install -U numpy==1.22 future==0.18.2 mock==3.0.5 keras_preprocessing==1.1.2 keras_applications==1.0.8 gast==0.4.0 protobuf pybind11 cython pkgconfig packaging h5py==3.6.0
+sudo pip3 install --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v511 tensorflow==2.12.0+nv23.4    (for this one)
+
+
+JP_VERSION -    sudo apt-cache show nvidia-jetpack | grep "Version"
+TF_VERSION - The released version of TensorFlow, for example, 2.11.0 or 1.15.5.
+NV_VERSION - The monthly NVIDIA container version of TensorFlow, for example, 23.01
+sudo pip3 install --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v$JP_VERSION tensorflow==$TF_VERSION+nv$NV_VERSION
+find compatible versions from here - https://docs.nvidia.com/deeplearning/frameworks/install-tf-jetson-platform-release-notes/tf-jetson-rel.html#tf-jetson-rel
+
+4--- Install Opencv---
+pip install opencv-python
+
+5---- PyCuda (for cuda 11.4) ----
+pip3 install --no-cache-dir --global-option=build_ext --global-option="-I/usr/local/cuda-11.4/targets/aarch64-linux/include/" --global-option="-L/usr/local/cuda-11.4/targets/aarch64-linux/lib/" pycuda==2020.1
+
+#----- other packages ----
+sudo pip3 install onnx
+pip install easydict
+pip install paho-mqtt
+pip install psutil
+
+
+
+
+
+
+---------------------model conversion------------------
+cd ${HOME}/project/tensorrt_demos/plugins
+make
+
+cd ${HOME}/project/tensorrt_demos/yolo
+python3 yolo_to_onnx.py -m yolov4-tiny-3l-ch-2203-416
+python3 onnx_to_tensorrt.py -m yolov4-tiny-3l-ch-2203-416
+
+
+
+
+
+
+#------------- gooogle drive filers downloads---------------
+shared_link -  https://drive.google.com/file/d/19IwBoeA7FeT4Oo9Hd5GK1iE8Zkpw_a8N/view?usp=drive_link
+gdown --id <file_id>
+gdown --id <19IwBoeA7FeT4Oo9Hd5GK1iE8Zkpw_a8N>
+
+
+
+
+
+
+
