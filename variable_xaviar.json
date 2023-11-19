@@ -1,0 +1,23 @@
+
+{
+
+"rtsp_link_1" : "rtsp://admin:admin123@10.10.162.159:554/Streaming/channels/101" , 
+"rtsp_link_2" : "rtsp://admin:admin123@10.10.162.159:554/Streaming/channels/101" , 
+"mask_coordinates_1" : [[1,2],[2,3],[4,6],[5,7]],
+"mask_coordinates_2" : [[1,2],[2,3],[4,6],[5,7]],
+"sample_image_1" : [1000,500],
+"sample_image_2" : [1000,500],
+"internet_ip" : "10.10.155.190"
+
+
+}
+
+
+
+
+
+
+
+
+
+

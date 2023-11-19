@@ -1,0 +1,10 @@
+
+[Unit]
+Description=My Python Script Timer
+
+[Timer]
+OnCalendar=*-*-* 08:30:00
+Unit=senz_obj_track_1.service
+
+[Install]
+WantedBy=timers.target

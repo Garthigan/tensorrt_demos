@@ -1,0 +1,15 @@
+[Unit]
+After=networking.service
+After=NetworkManager.service
+After=multi-user.target
+
+[Service]
+User=nvidia
+Type=simple
+WorkingDirectory=/home/nvidia/Downloads/tensorrt_demos
+ExecStart=/usr/bin/python /home/nvidia/Downloads/tensorrt_demos/device_stage_indicator.py
+Restart=on-failure
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=default.target
