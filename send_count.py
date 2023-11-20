@@ -5,7 +5,8 @@ import paho.mqtt.client as mqtt
 
 
 def main():
-
+    
+    mac_address = uuid.getnode()
     try:
         mqttBroker = "mqtt.senzmate.com"  # defining the mqtt broker
         file_name1 = "count1.log"
@@ -75,7 +76,7 @@ def main():
                 try:
                     client = mqtt.Client("Nolimit123456")
                     client.connect(mqttBroker)
-                    client.publish( topic="D2S/SA/V1/nolimit_mahara_A",
+                    client.publish( topic=f"D2S/SA/V1/{mac_address}/S",
                                     payload="0-CTD:{};1-CT:{};2-CTD:{};3-CT:{};".format(count1,curr_count1,count2,curr_count2),)
                     client.disconnect()
                     time.sleep(100)

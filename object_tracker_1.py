@@ -1,42 +1,43 @@
 # nolimit-kandy -format
 import os
-import time
-import queue
-import threading
-import matplotlib.pyplot as plt
-import numpy as np
-import paho.mqtt.client as mqtt
-from absl import app, flags, logging
-from absl.flags import FLAGS
-from PIL import Image
-from tensorflow.compat.v1 import ConfigProto, InteractiveSession
-from tensorflow.python.saved_model import tag_constants
-import cv2
-import tensorflow as tf
-import psutil
-import pycuda.autoinit
-import json
-
-import core.utils as utils
-from core.config import cfg
-from core.yolov4 import filter_boxes
-from deep_sort import nn_matching, preprocessing
-from deep_sort.detection import Detection
-from deep_sort.tracker import Tracker
-from tools import generate_detections as gdet
-from utils.yolo_with_plugins import TrtYOLO
-from mask import mask as md
 
 # comment out below line to enable tensorflow logging outputs
 print("initializing")
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
+import cv2
+from mask import mask as md
+import psutil
+import time
+import pycuda.autoinit
+import tensorflow as tf
+import json
+
 # change number of blocks per thread
 physical_devices = tf.config.experimental.list_physical_devices("GPU")
 if len(physical_devices) > 0:
     tf.config.experimental.set_memory_growth(physical_devices[0], True)
 print(physical_devices)
+
+import queue
+import threading
+import core.utils as utils
+import matplotlib.pyplot as plt
+import numpy as np
+import paho.mqtt.client as mqtt
+from absl import app, flags, logging
+from absl.flags import FLAGS
+from core.config import cfg
+from core.yolov4 import filter_boxes
+from deep_sort import nn_matching, preprocessing
+from deep_sort.detection import Detection
+from deep_sort.tracker import Tracker
+from PIL import Image
+from tensorflow.compat.v1 import ConfigProto, InteractiveSession
+from tensorflow.python.saved_model import tag_constants
+from tools import generate_detections as gdet
+from utils.yolo_with_plugins import TrtYOLO
 
 
 variable_nano_file_path = "/home/nvidia/Downloads/tensorrt_demos/variable_nano.json"
@@ -107,7 +108,7 @@ def main(_argv):
     # Load configuration for object detector
     input_size = int(model_name[-3:])
 
-    video_path =  "--------------------RTSP_link_here------------------------"
+    video_path =  rtsp_link
 
     print("load model")
 
@@ -149,6 +150,7 @@ def main(_argv):
   
     # Create the log file
     tim = time.localtime()
+    if not os.path.exists("log"): os.makedirs("log")
     msg_log_file = "log/message_{}_{}_{}.log".format(tim.tm_wday, tim.tm_hour, tim.tm_min)
 
     open(msg_log_file, "w").close()

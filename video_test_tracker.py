@@ -1,20 +1,31 @@
 # nolimit-kandy -format
 import os
-import time
+
+# comment out below line to enable tensorflow logging outputs
+print("initializing")
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+
 import cv2
+from mask import mask as md
 import psutil
+import time
 import pycuda.autoinit
 import tensorflow as tf
 import json
+
+# change number of blocks per thread
+physical_devices = tf.config.experimental.list_physical_devices("GPU")
+if len(physical_devices) > 0:
+    tf.config.experimental.set_memory_growth(physical_devices[0], True)
+print(physical_devices)
+
 import queue
 import threading
-from PIL import Image
-from tensorflow.compat.v1 import ConfigProto, InteractiveSession
-from tensorflow.python.saved_model import tag_constants
+import core.utils as utils
 import matplotlib.pyplot as plt
 import numpy as np
 import paho.mqtt.client as mqtt
-import core.utils as utils
 from absl import app, flags, logging
 from absl.flags import FLAGS
 from core.config import cfg
@@ -22,24 +33,11 @@ from core.yolov4 import filter_boxes
 from deep_sort import nn_matching, preprocessing
 from deep_sort.detection import Detection
 from deep_sort.tracker import Tracker
+from PIL import Image
+from tensorflow.compat.v1 import ConfigProto, InteractiveSession
+from tensorflow.python.saved_model import tag_constants
 from tools import generate_detections as gdet
 from utils.yolo_with_plugins import TrtYOLO
-from mask import mask as md
-
-
-
-# comment out below line to enable tensorflow logging outputs
-print("initializing")
-os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
-
-
-
-# change number of blocks per thread
-physical_devices = tf.config.experimental.list_physical_devices("GPU")
-if len(physical_devices) > 0:
-    tf.config.experimental.set_memory_growth(physical_devices[0], True)
-print(physical_devices)
 
 
 flags.DEFINE_integer("category_num", 80, "number of object categories [80]")
