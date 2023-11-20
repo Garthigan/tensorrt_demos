@@ -1,3 +1,0 @@
-[submodule "modnet/onnx-tensorrt"]
-	path = modnet/onnx-tensorrt
-	url = https://github.com/onnx/onnx-tensorrt.git

@@ -1,6 +1,0 @@
-# for xaviar 
-sudo cp -r /home/nvidia/Downloads/tensorrt_demos/timer_and_service_files/* /etc/systemd/system/
-
-# for nano
-sudo cp -r /home/jetson-nl1/Downloads/tensorrt_demos/timer_and_service_files/* /etc/systemd/system/
-
