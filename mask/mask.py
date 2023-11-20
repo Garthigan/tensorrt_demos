@@ -2,24 +2,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 import cv2
 import json
-import os 
-import sys
 
-
-current_dir = os.path.abspath(__file__)
-parent_dir = os.path.dirname(current_dir)
-sys.path.append(parent_dir)
-
-variable_nano_file_path = "variable_nano.json"
+variable_nano_file_path = "/home/jetson-nl1/Downloads/tensorrt_demos/variable_nano.json"
 with open(variable_nano_file_path, 'r') as file:
     json_data = file.read()
 parsed_data = json.loads(json_data)
 mask_coordinates = parsed_data['mask_coordinates']
 
-print(mask_coordinates)
-
-
-"""
 
 def plot_line(frame):
 
@@ -36,4 +25,3 @@ def plot_line(frame):
 
     return mask
 
-"""
