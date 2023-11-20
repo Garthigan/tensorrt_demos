@@ -1,35 +1,20 @@
 # nolimit-kandy -format
-
 import os
 import time
-
-import crop
-
-# comment out below line to enable tensorflow logging outputs
-print("initializing")
-os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
-
 import cv2
-from mask import mask_1 as md
 import psutil
 import pycuda.autoinit
 import tensorflow as tf
-
-# change number of blocks per thread
-physical_devices = tf.config.experimental.list_physical_devices("GPU")
-if len(physical_devices) > 0:
-    tf.config.experimental.set_memory_growth(physical_devices[0], True)
-
-print(physical_devices)
-
+import json
 import queue
 import threading
-
-import core.utils as utils
+from PIL import Image
+from tensorflow.compat.v1 import ConfigProto, InteractiveSession
+from tensorflow.python.saved_model import tag_constants
 import matplotlib.pyplot as plt
 import numpy as np
 import paho.mqtt.client as mqtt
+import core.utils as utils
 from absl import app, flags, logging
 from absl.flags import FLAGS
 from core.config import cfg
@@ -37,26 +22,37 @@ from core.yolov4 import filter_boxes
 from deep_sort import nn_matching, preprocessing
 from deep_sort.detection import Detection
 from deep_sort.tracker import Tracker
-from PIL import Image
-from tensorflow.compat.v1 import ConfigProto, InteractiveSession
-from tensorflow.python.saved_model import tag_constants
 from tools import generate_detections as gdet
 from utils.yolo_with_plugins import TrtYOLO
+from mask import mask as md
 
-flags.DEFINE_string("framework", "tf", "(tf, tflite, trt)")
-flags.DEFINE_string("weights", "./checkpoints/yolov4-416", "path to weights file")
-flags.DEFINE_integer("size", 416, "resize images to")
+
+
+# comment out below line to enable tensorflow logging outputs
+print("initializing")
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+
+
+
+# change number of blocks per thread
+physical_devices = tf.config.experimental.list_physical_devices("GPU")
+if len(physical_devices) > 0:
+    tf.config.experimental.set_memory_growth(physical_devices[0], True)
+print(physical_devices)
+
+
 flags.DEFINE_integer("category_num", 80, "number of object categories [80]")
-flags.DEFINE_boolean("tiny", False, "yolo or yolo-tiny")
-flags.DEFINE_string("model", "yolov4", "yolov3 or yolov4")
-flags.DEFINE_string("video", "./data/video/test.mp4", "path to input video or set to 0 for webcam")
 flags.DEFINE_string("output", None, "path to output video")
-flags.DEFINE_string("output_format", "XVID", "codec used in VideoWriter when saving video to file")
-flags.DEFINE_float("iou", 0.45, "iou threshold")
-flags.DEFINE_float("score", 0.50, "score threshold")
-flags.DEFINE_boolean("dont_show", False, "dont show video output")
-flags.DEFINE_boolean("info", False, "show detailed info of tracked objects")
 flags.DEFINE_boolean("count", False, "count objects being tracked on screen")
+
+variable_nano_file_path = "/home/nvidia/Downloads/tensorrt_demos/variable_nano.json"
+with open(variable_nano_file_path, 'r') as file:
+    json_data = file.read()
+parsed_data = json.loads(json_data)
+mask_coordinates = parsed_data['mask_coordinates']
+sample_image = parsed_data['sample_image']
+
 
 
 class RTSVideoCapture:
@@ -162,9 +158,8 @@ def main(_argv):
     count = 0
     _ , frame = vid.read()
 
-    mask_2 = md.plot_line(frame)
+    mask_2 = md.plot_line(frame  , mask_coordinates, sample_image)
     print(mask_2)
-    # edge_coordinates = [(138, 0), (272, 440), (540, 556), (745, 390), (810, 0)]
 
     # Create the log file
     tim = time.localtime()
