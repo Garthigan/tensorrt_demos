@@ -10,7 +10,7 @@ wifi_pin = 15
 tracksys_pin = 17
 
 
-variable_nano_file_path = "/home/nvidia/Downloads/tensorrt_demos/variable_nano.json"
+variable_nano_file_path = "/home/nvidia/Downloads/tensorrt_demos/variable_xaviar.json"
 with open(variable_nano_file_path, 'r') as file:
     json_data = file.read()
 parsed_data = json.loads(json_data)

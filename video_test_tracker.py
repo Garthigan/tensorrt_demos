@@ -44,7 +44,7 @@ flags.DEFINE_integer("category_num", 80, "number of object categories [80]")
 flags.DEFINE_string("output", None, "path to output video")
 flags.DEFINE_boolean("count", False, "count objects being tracked on screen")
 
-variable_nano_file_path = "/home/nvidia/Downloads/tensorrt_demos/variable_nano.json"
+variable_nano_file_path = "/home/nvidia/Downloads/tensorrt_demos/variable_xaviar.json"
 with open(variable_nano_file_path, 'r') as file:
     json_data = file.read()
 parsed_data = json.loads(json_data)
