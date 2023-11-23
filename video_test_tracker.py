@@ -161,6 +161,7 @@ def main(_argv):
 
     # Create the log file
     tim = time.localtime()
+    if not os.path.exists("log"): os.makedirs("log")
     msg_log_file = "log/message_{}_{}_{}.log".format(tim.tm_wday, tim.tm_hour, tim.tm_min)
 
     open(msg_log_file, "w").close()
