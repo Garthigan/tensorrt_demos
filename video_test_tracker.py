@@ -48,8 +48,8 @@ variable_xaviar_file_path = "/home/nvidia/Downloads/tensorrt_demos/variable_xavi
 with open(variable_xaviar_file_path, 'r') as file:
     json_data = file.read()
 parsed_data = json.loads(json_data)
-mask_coordinates = parsed_data['mask_coordinates']
-sample_image = parsed_data['sample_image']
+mask_coordinates = parsed_data['mask_coordinates_1']
+sample_image = parsed_data['sample_image_1']
 
 
 
