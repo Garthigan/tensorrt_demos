@@ -47,6 +47,7 @@ with open(variable_xaviar_file_path, 'r') as file:
 parsed_data = json.loads(json_data)
 rtsp_link = parsed_data['rtsp_link_2']
 mask_coordinates = parsed_data['mask_coordinates_2']
+sample_image = parsed_data['sample_image_2']
 
 flags.DEFINE_integer("category_num", 80, "number of object categories [80]")
 flags.DEFINE_string("output", None, "path to output video")
@@ -144,8 +145,9 @@ def main(_argv):
     count = 0
     frame = vid.read()
 
-    mask_2 = md.plot_line(frame, mask_coordinates)
+    mask_2 = md.plot_line(frame, mask_coordinates,sample_image)
     print(mask_2)
+    
 
     # Create the log file
     tim = time.localtime()
