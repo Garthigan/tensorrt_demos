@@ -8,12 +8,12 @@ echo ""
 #  sudo systemctl status senz_obj_track.timer
 #  sudo systemctl status device_stage_indicator.timer
 
-send_count_service = $(sudo systemctl is-active send_count.service)
-senz_obj_track_service = $(sudo systemctl is-active senz_obj_track.service)
-device_stage_indicator_service = $(sudo systemctl is-active device_stage_indicator.service)
-send_count_timer = $(sudo systemctl is-active send_count.timer)
-senz_obj_track_timer = $(sudo systemctl is-active senz_obj_track.timer)
-device_stage_indicator_timer = $(sudo systemctl is-active device_stage_indicator.timer)
+send_count_service=$(sudo systemctl is-active send_count.service)
+senz_obj_track_service=$(sudo systemctl is-active senz_obj_track.service)
+device_stage_indicator_service=$(sudo systemctl is-active device_stage_indicator.service)
+send_count_timer=$(sudo systemctl is-active send_count.timer)
+senz_obj_track_timer=$(sudo systemctl is-active senz_obj_track.timer)
+device_stage_indicator_timer=$(sudo systemctl is-active device_stage_indicator.timer)
 
 echo "----------------------------------------------------------"
 echo ""
